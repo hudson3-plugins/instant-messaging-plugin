@@ -62,11 +62,13 @@ public class BuildCommandTest {
         //verify(project).scheduleBuild(eq(42), (Cause) Mockito.any());
     }
 
+    @SuppressWarnings("unchecked")
     private AbstractProject<?, ?> mockProject(JobProvider jobProvider) {
         @SuppressWarnings("rawtypes")
         AbstractProject project = mock(FreeStyleProject.class);
         when(jobProvider.getJobByName(Mockito.anyString())).thenReturn(project);
         when(project.hasPermission(Item.BUILD)).thenReturn(Boolean.TRUE);
+        when(project.isBuildable()).thenReturn(true);
         return project;
     }
     
@@ -98,7 +100,7 @@ public class BuildCommandTest {
         cmd.getReply(bot, sender, new String[]{ "build", "project", "3s", "key=value", "key2=true" });
         captor = ArgumentCaptor.forClass(ParametersAction.class);
         verify(project).hasPermission(Item.BUILD);
-        verify(project).scheduleBuild(Mockito.anyInt(), (Cause) Mockito.any(),
+        verify(project).scheduleBuild(anyInt(), any(Cause.class),
                 captor.capture());
         
         Assert.assertEquals(2, captor.getValue().getParameters().size());
@@ -106,5 +108,23 @@ public class BuildCommandTest {
                 captor.getValue().getParameters().get(0));
         Assert.assertEquals(new BooleanParameterValue("key2", true),
                 captor.getValue().getParameters().get(1));
+    }
+    
+    @Test
+    public void disabledProjectShouldNotBeScheduled() {
+        Bot bot = mock(Bot.class);
+        when(bot.getImId()).thenReturn("hudsonbot");
+
+        BuildCommand cmd = new BuildCommand();
+        JobProvider jobProvider = mock(JobProvider.class);
+        cmd.setJobProvider(jobProvider);
+        
+        AbstractProject<?, ?> project = mockProject(jobProvider);
+        when(project.isBuildable()).thenReturn(false);
+        
+        Sender sender = new Sender("sender");
+        cmd.getReply(bot, sender, new String[]{"build", "project"});
+        
+        verify(project, times(0)).scheduleBuild(anyInt(), any(Cause.class));
     }
 }
