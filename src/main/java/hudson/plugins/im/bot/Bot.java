@@ -22,8 +22,8 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-import org.springframework.security.Authentication;
-import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Instant messaging bot.

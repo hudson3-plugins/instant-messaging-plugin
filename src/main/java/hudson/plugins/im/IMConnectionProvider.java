@@ -4,15 +4,16 @@ import hudson.model.User;
 import hudson.model.Hudson;
 import hudson.plugins.im.tools.ExceptionHelper;
 import hudson.security.SecurityRealm;
+import java.util.Arrays;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import org.springframework.security.Authentication;
-import org.springframework.security.AuthenticationException;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Abstract implementation of a provider of {@link IMConnection}s.
@@ -144,7 +145,7 @@ public abstract class IMConnectionProvider implements IMConnectionListener {
         } catch (AuthenticationException e) {
             // TODO: use the stored GrantedAuthorities
             return new UsernamePasswordAuthenticationToken(
-                u.getId(), "", new GrantedAuthority[]{SecurityRealm.AUTHENTICATED_AUTHORITY});
+                u.getId(), "", Arrays.asList(new GrantedAuthority[]{SecurityRealm.AUTHENTICATED_AUTHORITY}));
         }
     }
 

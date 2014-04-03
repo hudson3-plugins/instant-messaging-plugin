@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.hudsonci.plugins</groupId>
 		<artifactId>instant-messaging-parent</artifactId>
-		<version>3.0.0-M4</version>
+		<version>3.2.0-SNAPSHOT</version>
 		<relativePath>../instant-messaging-parent-plugin/pom.xml</relativePath>
 	</parent>
 
