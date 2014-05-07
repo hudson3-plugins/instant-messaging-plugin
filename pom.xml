@@ -10,7 +10,7 @@
     <groupId>org.hudsonci.plugins</groupId>
     <artifactId>instant-messaging</artifactId>
     <name>Hudson instant-messaging plugin</name>
-    <version>1.22-h-2</version>
+    <version>1.22-h-3-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <url>http://wiki.hudson-ci.org/display/HUDSON/Instant+Messaging+Plugin</url>
     <developers>
